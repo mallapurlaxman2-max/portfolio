@@ -459,6 +459,127 @@
   }
 
   // ==========================================================================
+  // WEB AUDIO API CYBER SOUND ENGINE
+  // ==========================================================================
+  let audioCtx = null;
+  let soundEnabled = true;
+
+  function initAudioContext() {
+    if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
+      const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioCtxClass();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  }
+
+  function playCyberClick(freq = 600, duration = 0.035, vol = 0.04) {
+    if (!soundEnabled) return;
+    try {
+      const ctx = initAudioContext();
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(freq * 0.45, ctx.currentTime + duration);
+      gain.gain.setValueAtTime(vol, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + duration);
+    } catch (_) {}
+  }
+
+  function playBuildStartSound() {
+    if (!soundEnabled) return;
+    try {
+      const ctx = initAudioContext();
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(140, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.35);
+      gain.gain.setValueAtTime(0.06, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.35);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.35);
+    } catch (_) {}
+  }
+
+  function playChimeSound() {
+    if (!soundEnabled) return;
+    try {
+      const ctx = initAudioContext();
+      if (!ctx) return;
+      [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.07);
+        gain.gain.setValueAtTime(0.045, ctx.currentTime + i * 0.07);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + i * 0.07 + 0.28);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime + i * 0.07);
+        osc.stop(ctx.currentTime + i * 0.07 + 0.28);
+      });
+    } catch (_) {}
+  }
+
+  // Active swarm audio generator: plays rhythmic clicks while agents assemble the page
+  let swarmAudioInterval = null;
+  function startSwarmAudioLoop() {
+    if (swarmAudioInterval) return;
+    playBuildStartSound();
+    swarmAudioInterval = setInterval(() => {
+      const host = document.querySelector('swarm-rebuild');
+      if (!host) {
+        stopSwarmAudioLoop();
+        return;
+      }
+      const rFreq = 420 + Math.random() * 680;
+      playCyberClick(rFreq, 0.03, 0.035);
+    }, 115);
+  }
+
+  function stopSwarmAudioLoop() {
+    if (swarmAudioInterval) {
+      clearInterval(swarmAudioInterval);
+      swarmAudioInterval = null;
+      playChimeSound();
+    }
+  }
+
+  function initSoundToggle() {
+    const btns = document.querySelectorAll('#sound-toggle-btn');
+    const icons = document.querySelectorAll('#sound-icon');
+    btns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        soundEnabled = !soundEnabled;
+        if (soundEnabled) {
+          initAudioContext();
+          playCyberClick(880, 0.06, 0.08);
+          icons.forEach(ic => ic.textContent = '🔊');
+          btn.classList.remove('muted');
+          btn.setAttribute('title', 'Cyber Sound FX: ON');
+        } else {
+          icons.forEach(ic => ic.textContent = '🔇');
+          btn.classList.add('muted');
+          btn.setAttribute('title', 'Cyber Sound FX: MUTED');
+        }
+      });
+    });
+  }
+
+  // ==========================================================================
   // AGENTIC BUILD / SWARM TRIGGER
   // ==========================================================================
   function initSwarmTrigger() {
@@ -466,6 +587,9 @@
     replayBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
+        initAudioContext();
+        startSwarmAudioLoop();
+
         if (typeof window.triggerSwarmRebuild === 'function') {
           window.triggerSwarmRebuild();
         } else if (window.__swarmRebuild) {
@@ -477,6 +601,17 @@
         }
       });
     });
+
+    // Detect when swarm completes and turns off
+    const observer = new MutationObserver(() => {
+      const host = document.querySelector('swarm-rebuild');
+      if (host && !swarmAudioInterval) {
+        startSwarmAudioLoop();
+      } else if (!host && swarmAudioInterval) {
+        stopSwarmAudioLoop();
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: false });
   }
 
   // ==========================================================================
@@ -552,6 +687,7 @@
     initScrollObserver();
     initDispatchTerminal();
     initInquiryBuilder();
+    initSoundToggle();
     initSwarmTrigger();
     initMotionReveals();
   });

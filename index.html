@@ -69,8 +69,9 @@
       </div>
 
       <div class="dock-right">
-        <button class="dock-swarm-btn trigger-swarm-rebuild" title="Replay Multi-Agent Swarm Build (From Instagram Reel)">
-          <span>⚡ AGENT BUILD</span>
+        <button class="dock-swarm-btn trigger-swarm-rebuild" title="Click to watch live multi-agent build with sound!">
+          <span class="status-pulse-red">●</span>
+          <span>⚡ LIVE BUILD (WITH SOUND 🔊)</span>
         </button>
         <div class="dock-status" title="Available for freelance, full-stack development & innovative collaborations">
           <span class="status-dot"></span>
@@ -107,8 +108,12 @@
             Transforming ideas into functional digital products. Architecting <strong>responsive websites</strong>, Android &amp; desktop applications, and <strong>AI-powered solutions</strong> with modern tools and AI workflows.
           </p>
           <div class="hero-actions">
-            <a href="#contact" class="btn btn-crimson">
-              <span>INITIATE DISPATCH</span>
+            <button type="button" class="btn btn-crimson trigger-swarm-rebuild" style="cursor:pointer;" title="Click to watch live agent build with sound!">
+              <span class="status-pulse-red">●</span>
+              <span>WATCH LIVE BUILD (WITH SOUND 🔊)</span>
+            </button>
+            <a href="#hire" class="btn btn-glass">
+              <span>HIRE FOR PAID PROJECTS</span>
               <svg class="btn-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
@@ -922,6 +927,28 @@
       </div>
     </section>
   </main>
+
+  <!-- Floating 1-Click Live Agent Build Widget (With Sound) -->
+  <div class="floating-agent-sound-pill" id="agent-sound-widget" title="Live Agent Build Portfolio with Sound">
+    <div class="pill-info-side">
+      <span class="pill-live-tag">
+        <span class="pulse-red-ring"></span>
+        LIVE AGENT BUILD 🔊
+      </span>
+      <span class="pill-domain-hint">mallapurlaxman2-max.github.io/portfolio/</span>
+    </div>
+    <div class="pill-buttons-side">
+      <button type="button" class="pill-btn-play trigger-swarm-rebuild" title="Click to watch live agent build with sound!">
+        <span>⚡ WATCH BUILD</span>
+      </button>
+      <button type="button" class="pill-btn-sound" id="sound-toggle-btn" title="Toggle cyber build audio FX">
+        <span id="sound-icon">🔊</span>
+      </button>
+      <button type="button" class="pill-btn-copy copy-btn" data-copy="https://mallapurlaxman2-max.github.io/portfolio/" title="Copy live portfolio link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      </button>
+    </div>
+  </div>
 
   <!-- Floating Toast Notification for Copy Feedback -->
   <div id="toast" class="toast-notification" aria-live="polite">

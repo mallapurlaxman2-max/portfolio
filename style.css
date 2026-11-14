@@ -2138,3 +2138,133 @@ main {
     display: none;
   }
 }
+
+/* ==========================================================================
+   FLOATING 1-CLICK LIVE AGENT BUILD WIDGET (WITH SOUND)
+   ========================================================================== */
+.floating-agent-sound-pill {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 16px;
+  background: rgba(8, 8, 12, 0.94);
+  border: 1px solid var(--accent-red);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 9999px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 25px rgba(239, 68, 68, 0.4);
+  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+}
+
+.floating-agent-sound-pill:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.95), 0 0 35px rgba(239, 68, 68, 0.6);
+}
+
+.pill-info-side {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pill-live-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--accent-red);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pulse-red-ring {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-red);
+  box-shadow: 0 0 8px var(--accent-red);
+  animation: pulseDot 1.4s infinite ease-in-out;
+}
+
+.pill-domain-hint {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.pill-buttons-side {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pill-btn-play {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--accent-red);
+  color: #050505;
+  border: 1px solid var(--accent-red);
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.pill-btn-play:hover {
+  background: #ff5555;
+  color: #000;
+  box-shadow: 0 0 16px var(--accent-red-glow);
+  transform: scale(1.03);
+}
+
+.pill-btn-sound,
+.pill-btn-copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-bright);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 13px;
+}
+
+.pill-btn-sound:hover,
+.pill-btn-copy:hover {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+}
+
+.pill-btn-sound.muted {
+  opacity: 0.55;
+}
+
+@media (max-width: 640px) {
+  .floating-agent-sound-pill {
+    bottom: 14px;
+    right: 10px;
+    left: 10px;
+    border-radius: 14px;
+    justify-content: space-between;
+    padding: 8px 12px;
+  }
+  .pill-domain-hint {
+    display: none;
+  }
+}
