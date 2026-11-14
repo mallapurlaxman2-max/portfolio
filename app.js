@@ -343,7 +343,7 @@
   }
 
   // ==========================================================================
-  // DISPATCH TERMINAL SIMULATOR
+  // DISPATCH TERMINAL SIMULATOR (Interactive CLI with Commands)
   // ==========================================================================
   function initDispatchTerminal() {
     const form = document.getElementById('terminal-form');
@@ -362,14 +362,30 @@
       log.appendChild(userLine);
       input.value = '';
 
-      // Simulated auto-dispatch reply
+      const lower = val.toLowerCase();
+
       setTimeout(() => {
         const botLine = document.createElement('div');
         botLine.className = 'terminal-line bot-line';
-        botLine.innerHTML = `<span class="term-reply">[DISPATCH ACCEPTED]</span> Transmission received. Routing packet to Laxman Mallapur. Direct Email: <strong>mallapurlaxman2@gmail.com</strong> | GitHub: <strong>github.com/mallapurlaxman2-max</strong>`;
+
+        if (lower === 'clear') {
+          log.innerHTML = '';
+          return;
+        } else if (lower === 'help') {
+          botLine.innerHTML = `<span class="term-reply">[AVAILABLE COMMANDS]</span><br>• <strong>hire</strong> - Details to hire Laxman for paid websites & apps<br>• <strong>quote</strong> - Request a customized project price estimate<br>• <strong>services</strong> - View all 8 development capabilities<br>• <strong>status</strong> - Current workload & availability<br>• <strong>clear</strong> - Clear console log<br>Or simply type your project inquiry directly!`;
+        } else if (lower === 'hire' || lower === 'quote' || lower.includes('cost') || lower.includes('price')) {
+          botLine.innerHTML = `<span class="term-reply">[COMMERCIAL INQUIRY]</span> Laxman is currently <strong>OPEN FOR PAID PROJECTS</strong>.<br>Packages: <strong>Modern Websites</strong>, <strong>Full-Stack Web Apps</strong>, and <strong>Android Mobile Apps</strong>.<br>Fast turnaround & full GitHub code ownership.<br>Direct Email: <a href="mailto:mallapurlaxman2@gmail.com?subject=Paid%20Project%20Inquiry%20-%20Laxman%20Mallapur" style="color:#ef4444;text-decoration:underline;">mallapurlaxman2@gmail.com</a>`;
+        } else if (lower === 'services') {
+          botLine.innerHTML = `<span class="term-reply">[SERVICES OFFERED]</span><br>1. Business & Personal Websites<br>2. Portfolio Websites (Cyber/Modern)<br>3. Landing Pages & Funnels<br>4. E-Commerce Stores<br>5. Full-Stack Web Applications (React + Supabase)<br>6. Android Mobile Apps (APKs)<br>7. Supabase Database Integration<br>8. Maintenance, Bug Fixing & Local AI Models`;
+        } else if (lower === 'status') {
+          botLine.innerHTML = `<span class="term-reply">[OPERATOR STATUS]</span> Active & Available for new commercial client commissions worldwide from Gokak, Belagavi, Karnataka.`;
+        } else {
+          botLine.innerHTML = `<span class="term-reply">[DISPATCH ACCEPTED]</span> Transmission received. Routing packet to Laxman Mallapur.<br>To finalize your project requirements immediately, send an email to: <a href="mailto:mallapurlaxman2@gmail.com?subject=Project%20Inquiry%20-%20Laxman%20Mallapur&body=${encodeURIComponent(val)}" style="color:#ef4444;text-decoration:underline;">mallapurlaxman2@gmail.com</a> | GitHub: <a href="https://github.com/mallapurlaxman2-max" target="_blank" style="color:#ef4444;text-decoration:underline;">github.com/mallapurlaxman2-max</a>`;
+        }
+
         log.appendChild(botLine);
         log.scrollTop = log.scrollHeight;
-      }, 500);
+      }, 350);
 
       log.scrollTop = log.scrollHeight;
     });
@@ -377,6 +393,69 @@
     function escapeHtml(str) {
       return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
+  }
+
+  // ==========================================================================
+  // QUICK PROJECT INQUIRY BUILDER & SERVICE TRIGGERS
+  // ==========================================================================
+  function initInquiryBuilder() {
+    const pills = document.querySelectorAll('.inquiry-pill');
+    const textarea = document.getElementById('inquiry-details');
+    const sendBtn = document.getElementById('inquiry-send-btn');
+    const serviceButtons = document.querySelectorAll('.service-inquire-btn');
+
+    let selectedService = 'Website Development';
+
+    pills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        pills.forEach((p) => p.classList.remove('active'));
+        pill.classList.add('active');
+        selectedService = pill.getAttribute('data-service') || pill.innerText.trim();
+        updateMailtoLink();
+      });
+    });
+
+    if (textarea) {
+      textarea.addEventListener('input', () => {
+        updateMailtoLink();
+      });
+    }
+
+    function updateMailtoLink() {
+      if (!sendBtn) return;
+      const details = textarea ? textarea.value.trim() : '';
+      const subject = encodeURIComponent(`Paid Project Inquiry: ${selectedService} - [Client Request]`);
+      const body = encodeURIComponent(
+        `Hi Laxman,\n\nI would like to hire you to build a project:\n\nService: ${selectedService}\n\nProject Scope & Requirements:\n${details || 'Please provide details on pricing, timeline, and deliverables for this project.'}\n\nBest regards,\n[Your Name / Company]`
+      );
+      sendBtn.setAttribute('href', `mailto:mallapurlaxman2@gmail.com?subject=${subject}&body=${body}`);
+    }
+
+    // Connect Service Cards directly to Inquiry Builder
+    serviceButtons.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const targetService = btn.getAttribute('data-service');
+        if (!targetService) return;
+
+        // Switch active pill
+        pills.forEach((p) => {
+          if (p.getAttribute('data-service') === targetService || p.innerText.includes(targetService)) {
+            p.classList.add('active');
+            selectedService = targetService;
+          } else {
+            p.classList.remove('active');
+          }
+        });
+
+        if (textarea) {
+          textarea.value = `I am interested in hiring you for: ${targetService}. Please let me know your availability and price estimate.`;
+        }
+
+        updateMailtoLink();
+      });
+    });
+
+    updateMailtoLink();
   }
 
   // ==========================================================================
@@ -472,6 +551,7 @@
     initCopyButtons();
     initScrollObserver();
     initDispatchTerminal();
+    initInquiryBuilder();
     initSwarmTrigger();
     initMotionReveals();
   });
