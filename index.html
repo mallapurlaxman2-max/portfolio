@@ -48,6 +48,21 @@
 </head>
 <body>
 
+  <!-- Top Personalized View Banner (Active only when user creates a customized portfolio) -->
+  <aside class="personalized-banner" id="personalized-banner" style="display: none;">
+    <div class="personalized-inner">
+      <span class="personalized-user-text">👋 Personalized Portfolio Mode: Viewing customized portfolio for <strong id="personalized-user-name">User</strong></span>
+      <div class="personalized-actions">
+        <button type="button" class="btn-export-html" id="export-html-btn" title="Download standalone HTML file">
+          <span>📥 DOWNLOAD MY PORTFOLIO (HTML)</span>
+        </button>
+        <button type="button" class="btn-reset-portfolio" id="reset-portfolio-btn" title="Reset view back to Laxman's portfolio">
+          <span>✕ RESET TO LAXMAN'S PORTFOLIO</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
   <!-- Ambient Noir & Crimson Op-Art Canvas -->
   <canvas id="aurora-canvas" aria-hidden="true"></canvas>
 
@@ -69,9 +84,12 @@
       </div>
 
       <div class="dock-right">
+        <button type="button" class="dock-creator-btn" id="dock-open-creator-btn" title="Create your own portfolio like this in 30 seconds!">
+          <span>✨ CREATE PORTFOLIO</span>
+        </button>
         <button class="dock-swarm-btn trigger-swarm-rebuild" title="Click to watch live multi-agent build with sound!">
           <span class="status-pulse-red">●</span>
-          <span>⚡ LIVE BUILD (WITH SOUND 🔊)</span>
+          <span>⚡ LIVE BUILD 🔊</span>
         </button>
         <div class="dock-status" title="Available for freelance, full-stack development & innovative collaborations">
           <span class="status-dot"></span>
@@ -95,6 +113,35 @@
           <text x="0" y="205" font-size="270" textLength="1000" lengthAdjust="spacingAndGlyphs">PORTFOLIO</text>
         </svg>
       </div>
+
+      <!-- Prominent 1-Click Live Agent Build Showcase Bar -->
+      <div class="hero-live-showcase-bar" id="live-showcase-bar">
+        <div class="showcase-bar-content">
+          <div class="showcase-status-cluster">
+            <span class="pulse-beacon-red"></span>
+            <span class="showcase-title">LIVE MULTI-AGENT BUILD (WITH SOUND 🔊)</span>
+          </div>
+          <div class="showcase-link-cluster">
+            <a href="https://mallapurlaxman2-max.github.io/portfolio/" target="_blank" rel="noopener noreferrer" class="showcase-official-url" title="Official Live Portfolio Link">
+              <span>https://mallapurlaxman2-max.github.io/portfolio/</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+            </a>
+          </div>
+          <div class="showcase-actions-cluster">
+            <button type="button" class="btn-launch-agent-build trigger-swarm-rebuild" title="Click to watch live agent swarm rebuild with sound!">
+              <span class="pulse-beacon-red" style="width:6px;height:6px;"></span>
+              <span>⚡ 1-CLICK WATCH BUILD (WITH SOUND 🔊)</span>
+            </button>
+            <button type="button" class="btn-create-clone" id="open-creator-btn" title="Create your own portfolio like this in 30 seconds!">
+              <span>✨ CREATE YOUR OWN PORTFOLIO</span>
+            </button>
+            <button type="button" class="btn-showcase-sound" id="sound-toggle-btn" title="Toggle Sound FX">
+              <span id="sound-icon">🔊</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="hero-stage-grid">
         <!-- Left Flank -->
         <div class="hero-flank left-flank">
@@ -954,6 +1001,87 @@
   <div id="toast" class="toast-notification" aria-live="polite">
     <span class="toast-icon">✓</span>
     <span class="toast-text" id="toast-message">Copied to clipboard!</span>
+  </div>
+
+  <!-- AI Portfolio Generator / Instant Clone Modal -->
+  <div class="creator-modal-backdrop" id="creator-modal" aria-hidden="true" role="dialog" aria-labelledby="creator-modal-title">
+    <div class="creator-modal">
+      <div class="creator-header">
+        <span class="creator-tag">✨ INSTANT CLONE ENGINE</span>
+        <h3 class="creator-title" id="creator-modal-title">Create Your Own Agentic Portfolio</h3>
+        <p class="creator-subtitle">
+          Fill in your details below to generate your exact same Cyber Noir &amp; Crimson portfolio in real time!
+        </p>
+      </div>
+
+      <form id="creator-form">
+        <div class="creator-grid">
+          <div class="creator-form-group">
+            <label class="creator-label" for="creator-name">Full Name *</label>
+            <input type="text" id="creator-name" class="creator-input" placeholder="e.g. Alex Mercer" required>
+          </div>
+
+          <div class="creator-form-group">
+            <label class="creator-label" for="creator-role">Professional Title / Role *</label>
+            <input type="text" id="creator-role" class="creator-input" placeholder="e.g. Full-Stack Developer | AI Enthusiast" required>
+          </div>
+
+          <div class="creator-form-group">
+            <label class="creator-label" for="creator-location">Location</label>
+            <input type="text" id="creator-location" class="creator-input" placeholder="e.g. Bangalore, Karnataka, India">
+          </div>
+
+          <div class="creator-form-group">
+            <label class="creator-label" for="creator-education">Education / Degree</label>
+            <input type="text" id="creator-education" class="creator-input" placeholder="e.g. BCA — 3rd Semester">
+          </div>
+
+          <div class="creator-form-group">
+            <label class="creator-label" for="creator-email">Contact Email *</label>
+            <input type="email" id="creator-email" class="creator-input" placeholder="e.g. yourname@example.com" required>
+          </div>
+
+          <div class="creator-form-group">
+            <label class="creator-label" for="creator-github">GitHub Profile URL</label>
+            <input type="url" id="creator-github" class="creator-input" placeholder="e.g. https://github.com/your-username">
+          </div>
+
+          <div class="creator-form-group full-span">
+            <label class="creator-label" for="creator-bio">About Me Summary</label>
+            <textarea id="creator-bio" class="creator-textarea" placeholder="Brief summary of your passion, what you build, and your engineering goals..."></textarea>
+          </div>
+
+          <div class="creator-form-group">
+            <label class="creator-label" for="creator-project-name">Flagship Project Name</label>
+            <input type="text" id="creator-project-name" class="creator-input" placeholder="e.g. CloudNexus AI">
+          </div>
+
+          <div class="creator-form-group">
+            <label class="creator-label" for="creator-project-url">Project Live Website / GitHub</label>
+            <input type="url" id="creator-project-url" class="creator-input" placeholder="e.g. https://github.com/your-username/project">
+          </div>
+
+          <div class="creator-form-group full-span">
+            <label class="creator-label" for="creator-project-desc">Project Description</label>
+            <input type="text" id="creator-project-desc" class="creator-input" placeholder="Brief description of your flagship project...">
+          </div>
+
+          <div class="creator-form-group full-span">
+            <label class="creator-label" for="creator-skills">Technical Skills (comma-separated)</label>
+            <input type="text" id="creator-skills" class="creator-input" placeholder="e.g. React.js, JavaScript, Python, Supabase, Git, Vercel">
+          </div>
+        </div>
+
+        <div class="creator-privacy-note">
+          🔒 <strong>Privacy Assurance:</strong> Your detailed information (email, bio, project links) is strictly saved in your personal browser and only visible to you. Only your <strong>name</strong> is logged for Laxman Mallapur as a registered portfolio creator.
+        </div>
+
+        <div class="creator-actions">
+          <button type="button" class="btn-modal-close" id="close-creator-btn">Cancel</button>
+          <button type="submit" class="btn-generate-submit">⚡ GENERATE MY PORTFOLIO NOW</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script src="./app.js" defer></script>

@@ -50,11 +50,11 @@
   const BLUE = "#0D99FF";
   const RED = "#F24822";
   const RULER = 20;
-  const MIN_AGENTS = 8;
-  const MAX_AGENTS = 48;
-  const FLOCK_AGENTS = 36;
-  const INTRO_AGENTS = 18;
-  const MAX_ITEMS = 4000;
+  const MIN_AGENTS = 4;
+  const MAX_AGENTS = 12;
+  const FLOCK_AGENTS = 8;
+  const INTRO_AGENTS = 6;
+  const MAX_ITEMS = 1500;
   const MAX_WORLD_H = 40000;
   const SVGNS = "http://www.w3.org/2000/svg";
 
